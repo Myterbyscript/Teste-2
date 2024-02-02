@@ -1,0 +1,39 @@
+local function esp()
+    for _, obj in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if obj:IsA("BasePart") then
+            local box = Instance.new("SelectionBox", obj)
+            box.LineThickness = 0.1
+            box.Color3 = Color3.new(0, 1, 0)
+            box.Transparency = 0.5
+            box.Adornee = obj
+        end
+    end
+end
+
+local function toggleMenu()
+    local menu = Instance.new("ScreenGui")
+    local button = Instance.new("TextButton", menu)
+    button.Text = "Ativar/Desativar Script"
+    button.Position = UDim2.new(0, 0, 0, 0)
+    button.Size = UDim2.new(0, 200, 0, 50)
+    button.BackgroundColor3 = Color3.new(0, 0, 0)
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.FontSize = Enum.FontSize.Size14
+    button.MouseButton1Click:Connect(function()
+        if button.Text == "Ativar Script" then
+            button.Text = "Desativar Script"
+            esp()
+        else
+            button.Text = "Ativar Script"
+            for _, obj in pairs(game:GetService("Workspace"):GetChildren()) do
+                if obj:IsA("BasePart") and obj:FindFirstChildOfClass("SelectionBox") then
+                    obj:FindFirstChildOfClass("SelectionBox"):Destroy()
+                end
+            end
+        end
+    end)
+    menu.Parent = game:GetService("CoreGui")
+end
+
+toggleMenu()
+esp()
